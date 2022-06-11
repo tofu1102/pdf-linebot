@@ -42,18 +42,15 @@ def callback():
 
 
 @handler.add(MessageEvent, message=ImageMessage)
-def handle_image_message(event):
-    message_content = line_bot_api.get_message_content(event.message.id)
+def handle_message(event):
+    #with open("/temp/"+event.message.id + ".jpg", "wb") as f:
+    #    f.write(message_content.content)
 
-    with open("static/" + event.message.id + ".jpg", "wb") as f:
-        f.write(message_content.content)
-        line_bot_api.reply_message(
-            event.reply_token,
-            ImageSendMessage(
-            original_content_url=FQDN + "/static/" + event.message.id + ".jpg",
-            preview_image_url=FQDN + "/static/" + event.message.id + "jpg"
-            )
-        )
+    #image_url = uploadFile(event.message.id + ".jpg")
+
+    line_bot_api.reply_message(
+        event.reply_token,
+        TextSendMessage(text="koko"))
 
 
 if __name__ == "__main__":
