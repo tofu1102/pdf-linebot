@@ -11,7 +11,7 @@ from linebot.models import (
 )
 import os
 
-from .pdf2url import *
+from pdf2url import *
 
 
 app = Flask(__name__)
