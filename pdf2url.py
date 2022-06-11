@@ -8,6 +8,7 @@ def uploadFile(pdfPath):
 
     #Googleサービスを認証
     gauth = GoogleAuth()
+    
 
     #資格情報ロードするか、存在しない場合は空の資格情報を作成
     gauth.LoadCredentialsFile("mycreds.txt")
