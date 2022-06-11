@@ -10,9 +10,9 @@ from linebot.models import (
     MessageEvent, TextMessage, TextSendMessage,
 )
 import os
-"""
-おうむ返し
-"""
+
+from .pdf2url import *
+
 
 app = Flask(__name__)
 
@@ -25,7 +25,6 @@ handler = WebhookHandler(YOUR_CHANNEL_SECRET)
 
 @app.route("/callback", methods=['POST'])
 def callback():
-    print("koko")
     # get X-Line-Signature header value
     signature = request.headers['X-Line-Signature']
 
@@ -42,11 +41,15 @@ def callback():
     return 'OK'
 
 
-@handler.add(MessageEvent, message=TextMessage)
-def handle_message(event):
+@handler.add(MessageEvent, message=ImageMessage)
+def handle_image_message(event):
+    with open(event.message.id + ".jpg", "wb") as f:
+        f.write(message_content.content)
+    image_url = uploadFile(event.message.id + ".jpg")
+
     line_bot_api.reply_message(
         event.reply_token,
-        TextSendMessage(text=event.message.text))
+        TextSendMessage(text=image_url))
 
 
 if __name__ == "__main__":

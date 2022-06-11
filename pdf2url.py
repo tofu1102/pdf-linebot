@@ -8,7 +8,7 @@ def uploadFile(pdfPath):
 
     #Googleサービスを認証
     gauth = GoogleAuth()
-    
+
 
     #資格情報ロードするか、存在しない場合は空の資格情報を作成
     gauth.LoadCredentialsFile("mycreds.txt")
@@ -48,7 +48,8 @@ def uploadFile(pdfPath):
 
     print(image_url)
 
-#def img2pdf(fileList,pdfName):
+    return image_url
+
 
 
 
