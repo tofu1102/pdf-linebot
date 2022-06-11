@@ -43,10 +43,10 @@ def callback():
 
 @handler.add(MessageEvent, message=ImageMessage)
 def handle_image_message(event):
-    with open("./temp/"+event.message.id + ".jpg", "wb") as f:
+    with open("/temp/"+event.message.id + ".jpg", "wb") as f:
         f.write(message_content.content)
 
-    image_url = uploadFile("./temp/"+event.message.id + ".jpg")
+    image_url = uploadFile("/temp/"+event.message.id + ".jpg")
 
     line_bot_api.reply_message(
         event.reply_token,
