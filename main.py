@@ -17,7 +17,7 @@ import os
 app = Flask(__name__)
 
 #環境変数取得
-YOUR_CHANNEL_ACCESS_TOKEN = os.environ["9PmGatx0immkCJ2xjGwGtdlk+ogDQJyXmOjOJvZvxvPUn8ZYRth/lTy1kKgITLvcJvrZg1+6NdU3MVrsjNNDsBkadupOe89aPJLonsDlmioQqM0/lCmsK3H0InW+I9TvfUUrMvIp0//Y+w0dwMjgYgdB04t89/1O/w1cDnyilFU="]
+YOUR_CHANNEL_ACCESS_TOKEN = os.environ["u3asXUAKrYxyzcy3Fdq5AUpONrWB8P+02kGLgHyy0phW6m6KLmbQBs7hP0nfW71uJvrZg1+6NdU3MVrsjNNDsBkadupOe89aPJLonsDlmip6nbGwJgSwqjj6iBl5r4EicIb4CxI/tKRtlPi7kwC58QdB04t89/1O/w1cDnyilFU="]
 YOUR_CHANNEL_SECRET = os.environ["0193134bd0f48224d76d5c3c67e61847"]
 
 line_bot_api = LineBotApi(YOUR_CHANNEL_ACCESS_TOKEN)
