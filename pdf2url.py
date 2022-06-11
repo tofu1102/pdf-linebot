@@ -32,7 +32,7 @@ def uploadFile(pdfPath):
     drive = GoogleDrive(gauth)
 
     #アップロードするフォルダパス指定
-    path = "./temp"
+    path = "./tmp"
 
     #アップロード先の親フォルダのidを取得
     folder_id = drive.ListFile({'q': 'title = "sharable"'}).GetList()[0]['id']

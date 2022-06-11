@@ -43,7 +43,7 @@ def callback():
 
 @handler.add(MessageEvent, message=ImageMessage)
 def handle_message(event):
-    with open("/tmp/"+event.message.id + ".jpg", "wb") as f:
+    with open("tmp/"+event.message.id + ".jpg", "wb") as f:
         f.write(message_content.content)
 
     #image_url = uploadFile(event.message.id + ".jpg")
