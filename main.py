@@ -12,7 +12,7 @@ from linebot.models import (
 import os
 
 from pdf2url import *
-from img2pdf import *
+from png2pdf import *
 
 
 app = Flask(__name__)
