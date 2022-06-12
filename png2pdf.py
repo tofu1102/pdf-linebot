@@ -6,4 +6,4 @@ def png2pdf(pdfFileName,pngFilePath):
     with open("static/" + pdfFileName,"wb") as f:
         f.write(img2pdf.convert([Image.open(pngFilePath).filename]))
 
-    return "static/" + pdfFileName
+    return pdfFileName
