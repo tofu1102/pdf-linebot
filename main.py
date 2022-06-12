@@ -23,6 +23,8 @@ YOUR_CHANNEL_SECRET = os.environ["YOUR_CHANNEL_SECRET"]
 line_bot_api = LineBotApi(YOUR_CHANNEL_ACCESS_TOKEN)
 handler = WebhookHandler(YOUR_CHANNEL_SECRET)
 
+FQDN = "https://pdf-linebot.herokuapp.com/"
+
 @app.route("/callback", methods=['POST'])
 def callback():
     # get X-Line-Signature header value
@@ -40,24 +42,23 @@ def callback():
 
     return 'OK'
 
-
 @handler.add(MessageEvent, message=ImageMessage)
-def handle_image(event):
-    #message_id = event.message.id
+def handle_image_message(event):
+    message_content = line_bot_api.get_message_content(event.message.id)
 
-    # message_idから画像のバイナリデータを取得
-    #message_content = line_bot_api.get_message_content(message_id)
+    with open("./static/" + event.message.id + ".jpg", "wb") as f:
+        f.write(message_content.content)
 
-    #with open(Path(f"tmp/{message_id}.jpg"), "wb") as f:
-        # バイナリを1024バイトずつ書き込む
-    #    for chunk in message_content.iter_content():
-    #        f.write(chunk)
+        line_bot_api.reply_message(
+            event.reply_token,
+            ImageSendMessage(
+                original_content_url=FQDN + "/static/" + event.message.id + ".jpg",
+                preview_image_url=FQDN + "/static/" + event.message.id + ".jpg"
+            )
+        )
 
-    #image_url = uploadFile(event.message.id + ".jpg")
 
-    line_bot_api.reply_message(
-        event.reply_token,
-        TextSendMessage(text="koko"))
+
 
 
 if __name__ == "__main__":
