@@ -60,13 +60,13 @@ def handle_image_message(event):
 
     image_url=uploadFile(P)
 
-    line_bot_api.reply_message(
-        event.reply_token,
-        ImageSendMessage(
-            original_content_url = FQDN + "static/" + message_id + ".jpg",
-            preview_image_url = FQDN + "static/" + message_id + ".jpg"
-        )
-    )
+    #line_bot_api.reply_message(
+    #    event.reply_token,
+    #    ImageSendMessage(
+    #        original_content_url = FQDN + "static/" + message_id + ".jpg",
+    #        preview_image_url = FQDN + "static/" + message_id + ".jpg"
+    #    )
+    #)
 
     line_bot_api.reply_message(
         event.reply_token,
