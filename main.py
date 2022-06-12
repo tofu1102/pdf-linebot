@@ -58,7 +58,7 @@ def handle_image_message(event):
             event.reply_token,
             TextSendMessage(text="Error"))
 
-    uploadFile(P)
+    image_url=uploadFile(P)
 
     line_bot_api.reply_message(
         event.reply_token,
@@ -67,6 +67,10 @@ def handle_image_message(event):
             preview_image_url = FQDN + "static/" + message_id + ".jpg"
         )
     )
+
+    line_bot_api.reply_message(
+        event.reply_token,
+        TextSendMessage(text=image_url))
 
 
 @handler.add(MessageEvent, message=TextMessage)
