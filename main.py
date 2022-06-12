@@ -43,6 +43,12 @@ def callback():
 
 @handler.add(MessageEvent, message=ImageMessage)
 def handle_message(event):
+    
+    if os.path.isdir("tmp"):
+        line_bot_api.reply_message(
+            event.reply_token,
+            TextSendMessage(text="koko"))
+
     with open("tmp/"+event.message.id + ".jpg", "wb") as f:
         f.write(message_content.content)
 
