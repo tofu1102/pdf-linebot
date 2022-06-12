@@ -46,7 +46,7 @@ def handle_image(event):
     message_id = event.message.id
 
     # message_idから画像のバイナリデータを取得
-    message_content = line_bot_api.get_message_content(message_id)
+    #message_content = line_bot_api.get_message_content(message_id)
 
     #with open(Path(f"tmp/{message_id}.jpg"), "wb") as f:
         # バイナリを1024バイトずつ書き込む
