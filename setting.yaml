@@ -2,11 +2,14 @@ setting.yaml
 
 client_config_backend: settings
 client_config:
-　client_id: frgnrlt8eqn5b1bu1pm7k8o492ecdn7s.apps.googleusercontent.com
+　client_id: 1088609338800-frgnrlt8eqn5b1bu1pm7k8o492ecdn7s.apps.googleusercontent.com
 　client_secret: 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
 
 save_credentials: True
 save_credentials_backend: file
-save_credentials_file: client_secrets.json
+save_credentials_file: credentials.json
 
 get_refresh_token: True
+
+oauth_scope:
+  - https://www.googleapis.com/auth/drive
