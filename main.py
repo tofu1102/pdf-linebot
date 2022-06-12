@@ -48,10 +48,10 @@ def handle_image(event):
     # message_idから画像のバイナリデータを取得
     message_content = line_bot_api.get_message_content(message_id)
 
-    with open(Path(f"tmp/{message_id}.jpg"), "wb") as f:
+    #with open(Path(f"tmp/{message_id}.jpg"), "wb") as f:
         # バイナリを1024バイトずつ書き込む
-        for chunk in message_content.iter_content():
-            f.write(chunk)
+    #    for chunk in message_content.iter_content():
+    #        f.write(chunk)
 
     #image_url = uploadFile(event.message.id + ".jpg")
 
