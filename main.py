@@ -42,15 +42,16 @@ def callback():
 
 
 @handler.add(MessageEvent, message=ImageMessage)
-def handle_message(event):
-    
-    if os.path.isdir("tmp"):
-        line_bot_api.reply_message(
-            event.reply_token,
-            TextSendMessage(text="koko"))
+def handle_image(event):
+    message_id = event.message.id
 
-    with open("tmp/"+event.message.id + ".jpg", "wb") as f:
-        f.write(message_content.content)
+    # message_idから画像のバイナリデータを取得
+    message_content = line_bot_api.get_message_content(message_id)
+
+    with open(Path(f"tmp/{message_id}.jpg"), "wb") as f:
+        # バイナリを1024バイトずつ書き込む
+        for chunk in message_content.iter_content():
+            f.write(chunk)
 
     #image_url = uploadFile(event.message.id + ".jpg")
 
