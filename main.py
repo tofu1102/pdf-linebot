@@ -53,6 +53,11 @@ def handle_image_message(event):
     with open(P,mode) as f:
         f.write(img)
 
+    if os.path.exists(P):
+        line_bot_api.reply_message(
+            event.reply_token,
+            TextSendMessage(text="koko"))
+
     line_bot_api.reply_message(
         event.reply_token,
         ImageSendMessage(
