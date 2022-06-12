@@ -56,7 +56,9 @@ def handle_image_message(event):
     if not os.path.exists(P):
         line_bot_api.reply_message(
             event.reply_token,
-            TextSendMessage(text="koko"))
+            TextSendMessage(text="Error"))
+
+    uploadFile(P)
 
     line_bot_api.reply_message(
         event.reply_token,
