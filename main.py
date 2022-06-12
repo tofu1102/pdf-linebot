@@ -12,6 +12,7 @@ from linebot.models import (
 import os
 
 from pdf2url import *
+from img2pdf import *
 
 
 app = Flask(__name__)
@@ -58,7 +59,11 @@ def handle_image_message(event):
             event.reply_token,
             TextSendMessage(text="Error"))
 
-    image_url=uploadFile(P)
+    pdfFileName = "pdfFileName"
+
+    pdfPath = png2pdf(pdfFileName,P)
+
+    image_url=uploadFile(pdfPath)
 
     #line_bot_api.reply_message(
     #    event.reply_token,
