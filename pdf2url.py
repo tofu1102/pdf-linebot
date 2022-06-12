@@ -3,33 +3,35 @@
 def uploadFile(pdfPath):
     from pydrive.drive import GoogleDrive
     from pydrive.auth import GoogleAuth
-
+    import json
     import os
 
     #Googleサービスを認証
     gauth = GoogleAuth()
+    gauth.CommandLineAuth()
+    drive = GoogleDrive(gauth)
 
 
     #資格情報ロードするか、存在しない場合は空の資格情報を作成
     gauth.LoadCredentialsFile("mycreds.txt")
 
     #Googleサービスの資格情報がない場合
-    if gauth.credentials is None:
+    #if gauth.credentials is None:
         #ユーザーから認証コードを自動的に受信しローカルWebサーバーを設定
-        gauth.LocalWebserverAuth()
+        #gauth.LocalWebserverAuth()
         #アクセストークンが存在しないか、期限切れかの場合
-    elif gauth.access_token_expired:
+    #elif gauth.access_token_expired:
         #Googleサービスを認証をリフレッシュする
-        gauth.Refresh()
+        #gauth.Refresh()
         #どちらにも一致しない場合
-    else:
+    #else:
         #Googleサービスを承認する
-        gauth.Authorize()
+        #gauth.Authorize()
     #資格情報をtxt形式でファイルに保存する
-    gauth.SaveCredentialsFile("mycreds.txt")
+    #gauth.SaveCredentialsFile("mycreds.txt")
 
     #Googleドライブの認証処理
-    drive = GoogleDrive(gauth)
+    #drive = GoogleDrive(gauth)
 
     #アップロードするフォルダパス指定
     path = "static"
