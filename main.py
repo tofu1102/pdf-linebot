@@ -44,18 +44,22 @@ def callback():
 
 @handler.add(MessageEvent, message=ImageMessage)
 def handle_image_message(event):
-    message_content = line_bot_api.get_message_content(event.message.id)
+    message_id = event.message.id
+    message_content = line_bot_api.get_message_content(message_id)
+    img = message_content.content
 
-    with open("./tmp/" + event.message.id + ".jpg", "wb") as f:
-        f.write(message_content.content)
+    P = "static/"+message_id+".jpg"
+    mode = 'a' if os.path.exists(P) else 'wb'
+    with open(P,mode) as f:
+        f.write(img)
 
-        line_bot_api.reply_message(
-            event.reply_token,
-            ImageSendMessage(
-                original_content_url=FQDN + "/static/" + event.message.id + ".jpg",
-                preview_image_url=FQDN + "/static/" + event.message.id + ".jpg"
-            )
+    line_bot_api.reply_message(
+        event.reply_token,
+        ImageSendMessage(
+            original_content_url = FQDN + "static/" + message_id + ".jpg",
+            preview_content_url = FQDN + "static/" + message_id + ".jpg"
         )
+    )
 
 
 @handler.add(MessageEvent, message=TextMessage)
