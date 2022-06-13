@@ -13,7 +13,7 @@ def uploadFile(pdfPath):
 
 
     #資格情報ロードするか、存在しない場合は空の資格情報を作成
-    gauth.LoadCredentialsFile("mycreds.txt")
+    #gauth.LoadCredentialsFile("mycreds.txt")
 
     #Googleサービスの資格情報がない場合
     #if gauth.credentials is None:

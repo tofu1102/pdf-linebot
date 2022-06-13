@@ -10,6 +10,8 @@ from linebot.models import (
     MessageEvent, TextMessage, TextSendMessage, ImageMessage, ImageSendMessage, StickerMessage, StickerSendMessage,
 )
 import os
+import img2pdf
+from PIL import Image
 
 from pdf2url import *
 from png2pdf import *
@@ -52,7 +54,8 @@ def handle_image_message(event):
     P = "static/"+message_id+".jpg"
     mode = 'a' if os.path.exists(P) else 'wb'
     with open(P,mode) as f:
-        f.write(img)
+        #f.write(img)
+        f.write(img2pdf.convert([img]))
 
     if not os.path.exists(P):
         line_bot_api.reply_message(
@@ -61,7 +64,7 @@ def handle_image_message(event):
 
     pdfFileName = "pdfFileName"
 
-    pdfPath = png2pdf(pdfFileName,P)
+#    pdfPath = png2pdf(pdfFileName,P)
 
     image_url=uploadFile(pdfPath)
 
