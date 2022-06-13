@@ -1,4 +1,3 @@
-settings.yaml
 
 client_config_backend: settings
 client_config_file: client_secrets.json
