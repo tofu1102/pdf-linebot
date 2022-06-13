@@ -7,7 +7,7 @@ from linebot.exceptions import (
     InvalidSignatureError
 )
 from linebot.models import (
-    MessageEvent, TextMessage, TextSendMessage, ImageMessage, ImageSendMessage,
+    MessageEvent, TextMessage, TextSendMessage, ImageMessage, ImageSendMessage, StickerMessage, StickerSendMessage,
 )
 import os
 
@@ -83,6 +83,13 @@ def handle_message(event):
    line_bot_api.reply_message(
        event.reply_token,
        TextSendMessage(text=event.message.text))
+
+
+@handler.add(MessageEvent, message=StickerMessage)
+def handle_sticker_message(event):
+    line_bot_api.reply_message(
+        event.reply_token,
+        TextSendMessage(text="すぐこのメッセージが帰ってきたら起動成功です。"))
 
 
 
