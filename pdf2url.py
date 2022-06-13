@@ -57,4 +57,4 @@ def uploadFile(pdfPath):
 
 
 if __name__=="__main__":
-    uploadFile("static/計画書_B-2_B9TB2025_伊藤裕太.pdf")
+    uploadFile("計画書_B-2_B9TB2025_伊藤裕太.pdf")
