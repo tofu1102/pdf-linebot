@@ -50,9 +50,13 @@ def handle_image_message(event):
     message_id = event.message.id
     message_content = line_bot_api.get_message_content(message_id)
     img = message_content.content
+    pdfFileName = "pdfFileName"
 
-    P = "static/"+message_id+".pdf"
+    P = "static/"+pdfFileName+".pdf"
     mode = 'a' if os.path.exists(P) else 'wb'
+
+    print(koko)
+
     with open(P,mode) as f:
         #f.write(img)
         f.write(img2pdf.convert([img]))
@@ -62,7 +66,7 @@ def handle_image_message(event):
             event.reply_token,
             TextSendMessage(text="Error"))
 
-    pdfFileName = "pdfFileName"
+
 
     #pdfPath = png2pdf(pdfFileName,P)
 
