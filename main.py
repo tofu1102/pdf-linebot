@@ -57,9 +57,9 @@ def handle_image_message(event):
 
     print("koko")
 
-    with open(P,mode) as f:
-        #f.write(img)
-        f.write(img2pdf.convert([img]))
+    with open(P,mode) as f1, open("static/tmp.png", "wb") as f2:
+        f2.write(img)
+        f1.write(img2pdf.convert(f2))
 
     if not os.path.exists(P):
         line_bot_api.reply_message(
