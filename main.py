@@ -64,9 +64,10 @@ def handle_image_message(event):
 
     pdfFileName = "pdfFileName"
 
-#    pdfPath = png2pdf(pdfFileName,P)
+    #pdfPath = png2pdf(pdfFileName,P)
 
-    image_url=uploadFile(pdfPath)
+    #image_url=uploadFile(pdfPath)
+    image_url=uploadFile(P)
 
     #line_bot_api.reply_message(
     #    event.reply_token,
