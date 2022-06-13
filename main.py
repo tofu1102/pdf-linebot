@@ -51,7 +51,7 @@ def handle_image_message(event):
     message_content = line_bot_api.get_message_content(message_id)
     img = message_content.content
 
-    P = "static/"+message_id+".jpg"
+    P = "static/"+message_id+".pdf"
     mode = 'a' if os.path.exists(P) else 'wb'
     with open(P,mode) as f:
         #f.write(img)
@@ -67,7 +67,7 @@ def handle_image_message(event):
     #pdfPath = png2pdf(pdfFileName,P)
 
     #image_url=uploadFile(pdfPath)
-    image_url=uploadFile(message_id+".jpg")
+    image_url=uploadFile(message_id+".pdf")
 
     #line_bot_api.reply_message(
     #    event.reply_token,
