@@ -55,7 +55,7 @@ def handle_image_message(event):
     P = "static/"+pdfFileName+".pdf"
     mode = 'a' if os.path.exists(P) else 'wb'
 
-    print(koko)
+    print("koko")
 
     with open(P,mode) as f:
         #f.write(img)
