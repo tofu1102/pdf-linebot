@@ -5,7 +5,7 @@ client_config_file: client_secrets.json
 client_config:
 　client_id: 1088609338800-frgnrlt8eqn5b1bu1pm7k8o492ecdn7s.apps.googleusercontent.com
 　client_secret: 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
-　redirect_uri: No
+　redirect_uri: urn:ietf:wg:oauth:2.0:oob
 
 save_credentials: True
 save_credentials_backend: file
