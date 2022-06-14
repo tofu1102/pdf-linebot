@@ -52,7 +52,11 @@ def handle_image_message(event):
     P = "static/"+message_id+".jpg"
     mode = 'a' if os.path.exists(P) else 'wb'
     with open(P,mode) as f:
-        f.write(img)
+        try:
+            f.write(img)
+        except:
+            print(P)
+            return 0
 
     if not os.path.exists(P):
         line_bot_api.reply_message(
@@ -89,7 +93,7 @@ def handle_message(event):
 def handle_sticker_message(event):
     line_bot_api.reply_message(
         event.reply_token,
-        TextSendMessage(text="すぐこのメッセージが帰ってきたら起動成功です。"))
+        TextSendMessage(text="このメッセージがすぐに帰ってきたら起動成功です。"))
 
 
 
