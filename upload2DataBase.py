@@ -9,7 +9,7 @@ def insert_test(name):
     with psycopg2.connect(DATABASE_URL) as conn:
         with conn.cursor() as curs:
             curs.execute(
-                f"INSERT INTO test VALUES({name});"
+                f"INSERT INTO test VALUES('{name}');"
                 )
 
 if __name__ == '__main__':
