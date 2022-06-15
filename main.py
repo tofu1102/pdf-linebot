@@ -59,7 +59,7 @@ def handle_image_message(event):
         f.write(img)
 
         #DBに登録
-        insert_img(event.source.user_id,psycopg2.Binary(f))
+        insert_img(event.source.user_id,psycopg2.Binary(f.read()))
 
     if not os.path.exists(P):
         line_bot_api.reply_message(
