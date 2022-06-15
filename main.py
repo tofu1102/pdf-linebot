@@ -13,6 +13,7 @@ import os
 
 from pdf2url import *
 from png2pdf import *
+from upload2DataBase import insert_img
 
 
 app = Flask(__name__)
@@ -49,11 +50,13 @@ def handle_image_message(event):
     message_content = line_bot_api.get_message_content(message_id)
     img = message_content.content
 
+    #DBに登録
+    insert_img(event.source.user_id,img)
+
     P = "static/"+message_id+".jpg"
     mode = 'a' if os.path.exists(P) else 'wb'
     with open(P,mode) as f:
         try:
-            print(img)
             f.write(img)
         except:
             print(P)
