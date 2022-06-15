@@ -56,14 +56,10 @@ def handle_image_message(event):
     P = "static/"+message_id+".jpg"
     mode = 'a' if os.path.exists(P) else 'wb'
     with open(P,mode) as f:
-        try:
-            f.write(img)
+        f.write(img)
 
-            #DBに登録
-            insert_img(event.source.user_id,psycopg2.Binary(f))
-        except:
-            print(P)
-            return 0
+        #DBに登録
+        insert_img(event.source.user_id,psycopg2.Binary(f))
 
     if not os.path.exists(P):
         line_bot_api.reply_message(
