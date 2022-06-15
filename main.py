@@ -54,7 +54,7 @@ def handle_image_message(event):
 
 
     P = "static/"+message_id+".jpg"
-    mode = 'a' if os.path.exists(P) else 'wb'
+    mode = 'w+b'
     with open(P,mode) as f:
         f.write(img)
 
