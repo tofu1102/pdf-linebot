@@ -51,7 +51,7 @@ def handle_image_message(event):
     img = message_content.content
 
     #DBに登録
-    insert_img(event.source.user_id,img)
+    #insert_img(event.source.user_id,img)
 
     P = "static/"+message_id+".jpg"
     mode = 'a' if os.path.exists(P) else 'wb'
