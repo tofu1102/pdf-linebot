@@ -10,6 +10,8 @@ from linebot.models import (
     MessageEvent, TextMessage, TextSendMessage, ImageMessage, ImageSendMessage, StickerMessage, StickerSendMessage,
 )
 import os
+import psycopg2
+import datetime
 
 from pdf2url import *
 from png2pdf import *
@@ -50,14 +52,15 @@ def handle_image_message(event):
     message_content = line_bot_api.get_message_content(message_id)
     img = message_content.content
 
-    #DBに登録
-    #insert_img(event.source.user_id,img)
 
     P = "static/"+message_id+".jpg"
     mode = 'a' if os.path.exists(P) else 'wb'
     with open(P,mode) as f:
         try:
             f.write(img)
+
+            #DBに登録
+            insert_img(event.source.user_id,psycopg2.Binary(f))
         except:
             print(P)
             return 0
