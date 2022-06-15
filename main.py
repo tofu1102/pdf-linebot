@@ -95,9 +95,6 @@ def handle_sticker_message(event):
         event.reply_token,
         TextSendMessage(text="このメッセージがすぐに帰ってきたら起動成功です。"))
 
-    line_bot_api.reply_message(
-        event.reply_token,
-        TextSendMessage(text="テスト"))
 
 
 
