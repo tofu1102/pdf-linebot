@@ -12,5 +12,7 @@ def insert_test(name):
                 f"INSERT INTO test VALUES('{name}');"
                 )
 
+#def
+
 if __name__ == '__main__':
     insert_test("tofu")

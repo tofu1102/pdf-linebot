@@ -53,6 +53,7 @@ def handle_image_message(event):
     mode = 'a' if os.path.exists(P) else 'wb'
     with open(P,mode) as f:
         try:
+            print(img)
             f.write(img)
         except:
             print(P)
