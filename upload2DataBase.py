@@ -17,7 +17,7 @@ def insert_img(user_id,img,Done = False):
     with psycopg2.connect(DATABASE_URL) as conn:
         with conn.cursor() as curs:
             curs.execute(
-                f"INSERT INTO Img VALUES('{datetime.date.now()}', '{user_id}','{Done}' );"
+                f"INSERT INTO Img VALUES('{datetime.date.today()}', '{user_id}','{Done}' );"
                 )
 
 if __name__ == '__main__':
