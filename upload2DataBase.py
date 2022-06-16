@@ -25,8 +25,7 @@ def select_img():
     with psycopg2.connect(DATABASE_URL) as conn:
         with conn.cursor() as curs:
             curs.execute("SELECT * FROM Img;")
-            a=curs.fetchall()
-            print(a)
+            return curs.fetchall()[0]
 
 if __name__ == '__main__':
     select_img()

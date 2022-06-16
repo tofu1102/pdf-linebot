@@ -15,7 +15,7 @@ import datetime
 
 from pdf2url import *
 from png2pdf import *
-from upload2DataBase import insert_img
+from upload2DataBase import *
 
 
 app = Flask(__name__)
@@ -87,9 +87,16 @@ def handle_image_message(event):
 
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
-   line_bot_api.reply_message(
+    img_data = select_img()
+    with open("static/test.jpg","wb") as f:
+        f.write(img_data[3])
+    line_bot_api.reply_message(
        event.reply_token,
-       TextSendMessage(text=event.source.user_id))
+       [TextSendMessage(text=event.source.user_id),
+       ImageSendMessage(
+               original_content_url = FQDN + "static/test.jpg",
+               preview_image_url = FQDN + "static/test.jpg"
+           )])
 
 
 @handler.add(MessageEvent, message=StickerMessage)
