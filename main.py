@@ -59,9 +59,10 @@ def handle_image_message(event):
     mode = 'w+b'
     with open(P,mode) as f:
         f.write(img)
-
+        img_binary = psycopg2.Binary(f.read())
+        print(img_binary)
         #DBに登録
-        insert_img(event.source.user_id,psycopg2.Binary(f.read()))
+        insert_img(event.source.user_id,img_binary)
 
     if not os.path.exists(P):
         line_bot_api.reply_message(
@@ -92,7 +93,7 @@ def handle_message(event):
 
 
     img_data = select_img()
-    print(img_data)
+    print(img_data[3])
 
 
     with open("static/" + event.message.text + '.jpg', 'wb') as f:
