@@ -10,8 +10,10 @@ from linebot.models import (
     MessageEvent, TextMessage, TextSendMessage, ImageMessage, ImageSendMessage, StickerMessage, StickerSendMessage,
 )
 import os
+import io
 import psycopg2
 import datetime
+from PIL import Image
 
 from pdf2url import *
 from png2pdf import *
@@ -87,15 +89,19 @@ def handle_image_message(event):
 
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
+
+
     img_data = select_img()
-    with open("static/test.jpg","wb") as f:
-        f.write(img_data[3])
+    img = Image.open(io.BytesIO(img_data[3]))
+    img_from_str.save("static/" + event.source.user_id + 'jpg')
+
+
     line_bot_api.reply_message(
        event.reply_token,
        [TextSendMessage(text=event.source.user_id),
        ImageSendMessage(
-               original_content_url = FQDN + "static/test.jpg",
-               preview_image_url = FQDN + "static/test.jpg"
+               original_content_url = FQDN + "static/" + event.source.user_id + 'jpg',
+               preview_image_url = FQDN + "static/" + event.source.user_id + 'jpg'
            )])
 
 
