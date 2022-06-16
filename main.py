@@ -92,7 +92,7 @@ def handle_message(event):
 
 
     img_data = select_img()
-    f = open("static/" + event.source.user_id + 'jpg', 'wb')
+    f = open("static/" + event.source.user_id + '.jpg', 'wb')
     f.write(img_data[3])
     f.close()
 
@@ -100,8 +100,8 @@ def handle_message(event):
        event.reply_token,
        [TextSendMessage(text=event.source.user_id),
        ImageSendMessage(
-               original_content_url = FQDN + "static/" + event.source.user_id + 'jpg',
-               preview_image_url = FQDN + "static/" + event.source.user_id + 'jpg'
+               original_content_url = FQDN + "static/" + event.source.user_id + '.jpg',
+               preview_image_url = FQDN + "static/" + event.source.user_id + '.jpg'
            )])
 
 
