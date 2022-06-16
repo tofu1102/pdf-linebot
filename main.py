@@ -54,11 +54,11 @@ def handle_image_message(event):
     message_content = line_bot_api.get_message_content(message_id)
     img = message_content.content
 
-    print(img)
+    #print(img)
 
 
     P = "static/"+message_id+".jpg"
-    print(P)
+    #print(P)
     mode = 'w+b'
     with open(P,mode) as f:
         f.write(img)
