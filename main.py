@@ -92,12 +92,12 @@ def handle_message(event):
 
 
     img_data = select_img()
+    print(img_data)
+
+
     with open("static/" + event.message.text + '.jpg', 'wb') as f:
         f.write(img_data[3])
-        print(f)
 
-    with open("static/鳳えむ.png") as g:
-        print(g)
 
     if not os.path.exists("static/" + event.message.text + '.jpg'):
         line_bot_api.reply_message(
