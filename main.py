@@ -108,8 +108,8 @@ def handle_message(event):
        event.reply_token,
        [TextSendMessage(text=event.source.user_id),
        ImageSendMessage(
-               original_content_url = FQDN + "/static/" + event.message.text + '.jpg',
-               preview_image_url = FQDN + "/static/" + event.message.text + '.jpg'
+               original_content_url = FQDN + "static/" + event.message.text + '.jpg',
+               preview_image_url = FQDN + "static/" + event.message.text + '.jpg'
            )])
 
 
