@@ -21,5 +21,12 @@ def insert_img(user_id,img,Done = False):
                 f"INSERT INTO Img VALUES('{dt.year}-{dt.month}-{dt.day} {dt.hour}:{dt.minute}:{dt.second}', '{user_id}',{Done}, {img});"
                 )
 
+def select_img():
+    with psycopg2.connect(DATABASE_URL) as conn:
+        with conn.cursor() as curs:
+            curs.execute("SELECT * FROM Img;")
+            a=curs.fetchall()
+            print(a)
+
 if __name__ == '__main__':
     insert_test("tofu")
