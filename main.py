@@ -93,7 +93,7 @@ def handle_message(event):
 
     img_data = select_img()
     f = open("static/" + event.message.text + '.png', 'wb')
-    f.write(img_data[3])
+    f.write(img_data["img"])
     f.close()
 
     line_bot_api.reply_message(
