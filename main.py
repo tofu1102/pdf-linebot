@@ -92,9 +92,9 @@ def handle_message(event):
 
 
     img_data = select_img()
-    #img = Image.open(io.BytesIO(img_data[3]))
-    #img_from_str.save("static/" + event.source.user_id + 'jpg')
-    print(img_data[3])
+    f = open("static/" + event.source.user_id + 'jpg', 'wb')
+    f.write(img_data[3])
+    f.close()
 
     line_bot_api.reply_message(
        event.reply_token,
