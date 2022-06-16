@@ -58,6 +58,7 @@ def handle_image_message(event):
 
 
     P = "static/"+message_id+".jpg"
+    print(P)
     mode = 'w+b'
     with open(P,mode) as f:
         f.write(img)
