@@ -59,7 +59,7 @@ def handle_image_message(event):
     mode = 'w+b'
     with open(P,mode) as f:
         f.write(img)
-        img_binary = psycopg2.Binary(f.read())
+        img_binary = psycopg2.Binary(f)
         print(img_binary)
         #DBに登録
         insert_img(event.source.user_id,img_binary)
