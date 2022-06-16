@@ -95,6 +95,11 @@ def handle_message(event):
     with open("static/" + event.message.text + '.png', 'wb') as f:
         f.write(img_data[3])
 
+    if not os.path.exists("static/" + event.message.text + '.png'):
+        line_bot_api.reply_message(
+            event.reply_token,
+            TextSendMessage(text="Error"))
+
     line_bot_api.reply_message(
        event.reply_token,
        [TextSendMessage(text=event.source.user_id),
