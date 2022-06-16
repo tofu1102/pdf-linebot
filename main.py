@@ -92,16 +92,15 @@ def handle_message(event):
 
 
     img_data = select_img()
-    f = open("static/" + event.message.text + '.png', 'wb')
-    f.write(img_data["img"])
-    f.close()
+    with open("static/" + event.message.text + '.png', 'wb') as f:
+        f.write(img_data[3])
 
     line_bot_api.reply_message(
        event.reply_token,
        [TextSendMessage(text=event.source.user_id),
        ImageSendMessage(
-               original_content_url = FQDN + "static/" + event.message.text + '.png',
-               preview_image_url = FQDN + "static/" + event.message.text + '.png'
+               original_content_url = FQDN + "/static/" + event.message.text + '.png',
+               preview_image_url = FQDN + "/static/" + event.message.text + '.png'
            )])
 
 
