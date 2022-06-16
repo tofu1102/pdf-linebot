@@ -29,4 +29,4 @@ def select_img():
             print(a)
 
 if __name__ == '__main__':
-    insert_test("tofu")
+    select_img()
