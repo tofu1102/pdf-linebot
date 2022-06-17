@@ -12,6 +12,7 @@ from linebot.models import (
 import os
 import io
 import psycopg2
+import psycopg2.extras
 import datetime
 from PIL import Image
 
