@@ -11,6 +11,7 @@ from linebot.models import (
 )
 import os
 import io
+import re
 import psycopg2
 import psycopg2.extras
 import datetime
@@ -117,7 +118,7 @@ def handle_message(event):
     conn.close()
 
     #GoogleDriveにアップロード
-    pdfFileName = event.message.text
+    pdfFileName = re.sub(r'[\\/:*?"<>|]+','',event.message.text)
     pdfPath = png2pdf(pdfFileName,"static/" + event.source.user_id + '.jpg')
     image_url=uploadFile(pdfPath)
 
