@@ -1,6 +1,6 @@
 
 
-def uploadFile(pdfPath):
+def uploadFile(pdfPath, pdfName = None):
     from pydrive.drive import GoogleDrive
     from pydrive.auth import GoogleAuth
     import json
@@ -36,11 +36,14 @@ def uploadFile(pdfPath):
     #アップロードするフォルダパス指定
     path = "static"
 
+    if not pdfName:
+        pdfName = pdfPath
+
     #アップロード先の親フォルダのidを取得
     folder_id = drive.ListFile({'q': 'title = "sharable"'}).GetList()[0]['id']
 
     #GoogleDriveFileオブジェクト作成
-    f = drive.CreateFile({'title' : pdfPath,"parents": [{"id": folder_id}]})
+    f = drive.CreateFile({'title' : pdfName + ".pdf" , "parents": [{"id": folder_id}]})
     #ローカルのファイルをセットしてアップロード
     f.SetContentFile(os.path.join(path,pdfPath))
     #Googleドライブにアップロード
