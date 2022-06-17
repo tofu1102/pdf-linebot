@@ -108,7 +108,7 @@ def handle_message(event):
     cur.execute("SELECT img FROM Img")
     #byteaデータの取り出し
     row = cur.fetchone()
-    pic = row['image']
+    pic = row['img']
     #ファイルに内容を書き込み
     f = open("static/" + event.message.text + '.jpg', 'wb')
     f.write(pic)
