@@ -94,7 +94,7 @@ def handle_message(event):
 
 
     img_data = select_img()
-    print(img_data[3])
+    print(bytes(img_data[3]))
 
 
     with open("static/" + event.message.text + '.jpg', 'wb') as f:
