@@ -110,7 +110,7 @@ def handle_message(event):
     row = cur.fetchone()
     pic = row['img']
     #ファイルに内容を書き込み
-    f = open("static/" + event.message.text + '.jpg', 'wb')
+    f = open("static/" + "テスト" + '.jpg', 'wb')
     f.write(pic)
     f.close()
     cur.close()
