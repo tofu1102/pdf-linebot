@@ -119,6 +119,11 @@ def handle_message(event):
 
     #GoogleDriveにアップロード
     pdfFileName = re.sub(r'[\\/:*?"<>|]+','',event.message.text)
+    if pdfFileName == "":
+        line_bot_api.reply_message(
+           event.reply_token,
+           [TextSendMessage(text="""これらの文字はファイル名に含めることができません。\/:*?"<>|"""),
+           ])
     pdfPath = png2pdf(pdfFileName,"static/" + event.source.user_id + '.jpg')
     image_url=uploadFile(pdfPath)
 
