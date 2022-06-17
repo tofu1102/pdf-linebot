@@ -110,7 +110,7 @@ def handle_message(event):
     row = cur.fetchone()
     pic = row['img']
     #ファイルに内容を書き込み
-    f = open("static/" + "テスト" + '.jpg', 'wb')
+    f = open("static/" + "tmp" + '.jpg', 'wb')
     f.write(pic)
     f.close()
     cur.close()
@@ -119,7 +119,7 @@ def handle_message(event):
 
 
 
-    if not os.path.exists("static/" + event.message.text + '.jpg'):
+    if not os.path.exists("static/" + "tmp" + '.jpg'):
         line_bot_api.reply_message(
             event.reply_token,
             TextSendMessage(text="Error"))
@@ -128,8 +128,8 @@ def handle_message(event):
        event.reply_token,
        [TextSendMessage(text=event.source.user_id),
        ImageSendMessage(
-               original_content_url = FQDN + "static/" + event.message.text + '.jpg',
-               preview_image_url = FQDN + "static/" + event.message.text + '.jpg'
+               original_content_url = FQDN + "static/" + "tmp" + '.jpg',
+               preview_image_url = FQDN + "static/" + "tmp" + '.jpg'
            )])
 
 
