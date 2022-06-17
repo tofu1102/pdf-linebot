@@ -105,7 +105,7 @@ def handle_message(event):
 
     conn= psycopg2.connect(DATABASE_URL)
     cur = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
-    cur.execute("SELECT img FROM Img")
+    cur.execute(f"SELECT img FROM Img WHERE user_id = '{event.source.user_id}' ORDER BY date DESC")
     #byteaデータの取り出し
     row = cur.fetchone()
     pic = row['img']
