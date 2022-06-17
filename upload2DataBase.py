@@ -15,7 +15,7 @@ def insert_test(name):
 
 def insert_img(user_id,img,Done = False):
     dt = datetime.datetime.now()
-    print(img)
+    #print(img)
     with psycopg2.connect(DATABASE_URL) as conn:
         with conn.cursor() as curs:
             curs.execute(

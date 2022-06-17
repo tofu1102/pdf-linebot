@@ -54,18 +54,16 @@ def handle_image_message(event):
     message_content = line_bot_api.get_message_content(message_id)
     img = message_content.content
 
-    #print(img)
 
 
     P = "static/"+message_id+".jpg"
-    #print(P)
     mode = 'w+b'
     with open(P,mode) as f:
         f.write(img)
         #img_binary = psycopg2.Binary(f)
         #print(img_binary)
         #DBに登録
-        insert_img(event.source.user_id,f.read())
+        insert_img(event.source.user_id,psycopg2.Binary(f.read()))
 
     if not os.path.exists(P):
         line_bot_api.reply_message(
@@ -96,11 +94,11 @@ def handle_message(event):
 
 
     img_data = select_img()
-    print(img_data[3])
+    #print(img_data[3])
 
 
     with open("static/" + event.message.text + '.jpg', 'wb') as f:
-        f.write(img_data[3])
+        f.write(bytes(img_data[3]))
 
 
     if not os.path.exists("static/" + event.message.text + '.jpg'):
