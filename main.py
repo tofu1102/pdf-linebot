@@ -81,11 +81,11 @@ def handle_image_message(event):
             event.reply_token,
             TextSendMessage(text="Error"))
 
-    pdfFileName = "pdfFileName"
+    #pdfFileName = "pdfFileName"
 
-    pdfPath = png2pdf(pdfFileName,P)
+    #pdfPath = png2pdf(pdfFileName,P)
 
-    image_url=uploadFile(pdfPath,event.message.text)
+    #image_url=uploadFile(pdfPath)
 
     #line_bot_api.reply_message(
     #    event.reply_token,
@@ -97,7 +97,7 @@ def handle_image_message(event):
 
     line_bot_api.reply_message(
         event.reply_token,
-        TextSendMessage(text=image_url))
+        TextSendMessage(text="保存完了"))
 
 
 @handler.add(MessageEvent, message=TextMessage)
@@ -110,27 +110,29 @@ def handle_message(event):
     row = cur.fetchone()
     pic = row['img']
     #ファイルに内容を書き込み
-    f = open("static/" + "tmp" + '.jpg', 'wb')
+    f = open("static/" + event.source.user_id + '.jpg', 'wb')
     f.write(pic)
     f.close()
     cur.close()
     conn.close()
 
+    #GoogleDriveにアップロード
+    pdfFileName = event.message.text
+    pdfPath = png2pdf(pdfFileName,"static/" + event.source.user_id + '.jpg')
+    image_url=uploadFile(pdfPath)
 
 
 
-    if not os.path.exists("static/" + "tmp" + '.jpg'):
+
+    if not os.path.exists("static/" + event.source.user_id + '.jpg'):
         line_bot_api.reply_message(
             event.reply_token,
             TextSendMessage(text="Error"))
 
     line_bot_api.reply_message(
        event.reply_token,
-       [TextSendMessage(text=event.source.user_id),
-       ImageSendMessage(
-               original_content_url = FQDN + "static/" + "tmp" + '.jpg',
-               preview_image_url = FQDN + "static/" + "tmp" + '.jpg'
-           )])
+       [TextSendMessage(text=image_url),
+       ])
 
 
 @handler.add(MessageEvent, message=StickerMessage)
