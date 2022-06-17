@@ -26,6 +26,8 @@ app = Flask(__name__)
 YOUR_CHANNEL_ACCESS_TOKEN = os.environ["YOUR_CHANNEL_ACCESS_TOKEN"]
 YOUR_CHANNEL_SECRET = os.environ["YOUR_CHANNEL_SECRET"]
 
+DATABASE_URL = os.environ.get('DATABASE_URL')
+
 line_bot_api = LineBotApi(YOUR_CHANNEL_ACCESS_TOKEN)
 handler = WebhookHandler(YOUR_CHANNEL_SECRET)
 
@@ -60,10 +62,18 @@ def handle_image_message(event):
     mode = 'w+b'
     with open(P,mode) as f:
         f.write(img)
-        #img_binary = psycopg2.Binary(f)
-        #print(img_binary)
-        #DBに登録
-        insert_img(event.source.user_id,psycopg2.Binary(f.read()))
+
+    Done = False
+    dt = datetime.datetime.now()
+
+    #DBに登録
+    conn= psycopg2.connect(DATABASE_URL)
+    cur = conn.cursor()
+    #ファイルを開いてデータを取得
+    pic = open(P, 'rb').read()
+    cur.execute(f"INSERT INTO Img (date,user_id,done,img) VALUES ('{dt.year}-{dt.month}-{dt.day} {dt.hour}:{dt.minute}:{dt.second}', '{event.source.user_id}',{Done}, {psycopg2.Binary(pic)})")
+    conn.commit()
+    cur.close()
 
     if not os.path.exists(P):
         line_bot_api.reply_message(
@@ -92,13 +102,20 @@ def handle_image_message(event):
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
 
+    conn= psycopg2.connect(DATABASE_URL)
+    cur = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
+    cur.execute("SELECT image FROM Img")
+    #byteaデータの取り出し
+    row = cur.fetchone()
+    pic = row['image']
+    #ファイルに内容を書き込み
+    f = open("static/" + event.message.text + '.jpg', 'wb')
+    f.write(pic)
+    f.close()
+    cur.close()
+    conn.close()
 
-    img_data = select_img()
-    print(bytes(img_data[3]))
 
-
-    with open("static/" + event.message.text + '.jpg', 'wb') as f:
-        f.write(bytes(img_data[3]))
 
 
     if not os.path.exists("static/" + event.message.text + '.jpg'):
