@@ -138,22 +138,22 @@ def handle_message(event):
 @handler.add(MessageEvent, message=TextMessage)
 def response_message(event):
     # notesのCarouselColumnの各値は、変更してもらって結構です。
-    notes = [CarouselColumn(thumbnail_image_url="https://renttle.jp/static/img/renttle02.jpg",
+    notes = [CarouselColumn(thumbnail_image_url="https://pdf-linebot.herokuapp.com/static/鳳えむ.png",
                             title="【ReleaseNote】トークルームを実装しました。",
                             text="creation(創作中・考え中の何かしらのモノ・コト)に関して、意見を聞けるようにトークルーム機能を追加しました。",
-                            actions=[{"type": "message","label": "サイトURL","text": "https://renttle.jp/notes/kota/7"}]),
+                            actions=[{"type": "message","label": "サイトURL","text": "https://pjsekai.sega.jp/character/unite04/emu/index.html"}]),
 
-             CarouselColumn(thumbnail_image_url="https://renttle.jp/static/img/renttle03.jpg",
+             CarouselColumn(thumbnail_image_url="https://pdf-linebot.herokuapp.com/static/鳳えむ.png",
                             title="ReleaseNote】創作中の活動を報告する機能を追加しました。",
                             text="創作中や考え中の時点の活動を共有できる機能を追加しました。",
                             actions=[
-                                {"type": "message", "label": "サイトURL", "text": "https://renttle.jp/notes/kota/6"}]),
+                                {"type": "message", "label": "サイトURL", "text": "https://pjsekai.sega.jp/character/unite04/emu/index.html"}]),
 
-             CarouselColumn(thumbnail_image_url="https://renttle.jp/static/img/renttle04.jpg",
+             CarouselColumn(thumbnail_image_url="https://pdf-linebot.herokuapp.com/static/鳳えむ.png",
                             title="【ReleaseNote】タグ機能を追加しました。",
                             text="「イベントを作成」「記事を投稿」「本を登録」にタグ機能を追加しました。",
                             actions=[
-                                {"type": "message", "label": "サイトURL", "text": "https://renttle.jp/notes/kota/5"}])]
+                                {"type": "message", "label": "サイトURL", "text": "https://pjsekai.sega.jp/character/unite04/emu/index.html"}])]
 
     messages = TemplateSendMessage(
         alt_text='template',
