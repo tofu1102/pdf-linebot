@@ -124,10 +124,10 @@ def handle_message(event):
     for row in datas:
         pic = row['img']
         #ファイルに内容を書き込み
-        f = open("static/" + event.source.user_id + "-" + row['id'] '.jpg', 'wb')
+        f = open("static/" + event.source.user_id + "-" + row['id'] + '.jpg', 'wb')
         f.write(pic)
         f.close()
-        FilePaths.append("static/" + event.source.user_id + "-" + row['id'] '.jpg')
+        FilePaths.append("static/" + event.source.user_id + "-" + row['id'] + '.jpg')
     cur.close()
     conn.close()
 
@@ -147,7 +147,7 @@ def handle_message(event):
     line_bot_api.reply_message(event.reply_token, messages=messages)
 
     return 0
-
+    
     #GoogleDriveにアップロード
     pdfFileName = re.sub(r'[\\/:*?"<>|\.]+','',event.message.text)
     if pdfFileName == "":
