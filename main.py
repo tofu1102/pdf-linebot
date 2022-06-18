@@ -130,13 +130,15 @@ def handle_message(event):
             event.reply_token,
             TextSendMessage(text="画像を送信してください。"))
         return 0
+    else:
+        FileNum = len(row)
 
     notes = []
 
-    for i in filePathList:
-        notes.append(CarouselColumn(thumbnail_image_url=FQDN + i,
-                                title="5ページのpdfを作成",
-                                text="この画像から右の5枚を1つのpdfにまとめます。",
+    for i in range(FileNum):
+        notes.append(CarouselColumn(thumbnail_image_url=FQDN + filePathList[i],
+                                title=f"{i+1}ページのpdfを作成",
+                                text=f"この画像から右の{i+1}枚を1つのpdfにまとめます。",
                                 actions=[{"type": "message","label": "作成する","text": "https://pjsekai.sega.jp/character/unite04/emu/index.html"}]))
 
     messages = TemplateSendMessage(
