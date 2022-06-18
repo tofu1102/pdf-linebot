@@ -35,6 +35,9 @@ handler = WebhookHandler(YOUR_CHANNEL_SECRET)
 
 FQDN = "https://pdf-linebot.herokuapp.com/"
 
+#pdfの最大ページ数
+PAGE_LIMIT = 5
+
 @app.route("/callback", methods=['POST'])
 def callback():
     # get X-Line-Signature header value
@@ -106,10 +109,11 @@ def handle_message(event):
 
     conn= psycopg2.connect(DATABASE_URL)
     cur = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
-    cur.execute(f"SELECT img FROM Img WHERE user_id = '{event.source.user_id}' ORDER BY date DESC")
+    cur.execute(f"SELECT img FROM Img WHERE user_id = '{event.source.user_id}' ORDER BY date DESC OFFSET 0 LIMIT {PAGE_LIMIT}")
     #byteaデータの取り出し
-    row = cur.fetchone()
-    pic = row['img']
+    row = cur.fetchall()
+    print(row)
+    pic = row[0]['img']
     #ファイルに内容を書き込み
     f = open("static/" + event.source.user_id + '.jpg', 'wb')
     f.write(pic)
