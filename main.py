@@ -168,7 +168,7 @@ def handle_message(event):
         #ファイルのリストを取得
         conn= psycopg2.connect(DATABASE_URL)
         cur = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
-        cur.execute(f"SELECT img, id FROM Img WHERE user_id = '{event.source.user_id}' ORDER BY date DESC OFFSET 0 LIMIT {PAGE_LIMIT}")
+        cur.execute(f"SELECT img, id FROM Img WHERE user_id = '{event.source.user_id}' ORDER BY date DESC OFFSET 0 LIMIT {page}")
         #byteaデータの取り出し
         row = cur.fetchall()
         filePathList = []
