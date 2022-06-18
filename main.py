@@ -112,14 +112,43 @@ def handle_message(event):
     cur.execute(f"SELECT img FROM Img WHERE user_id = '{event.source.user_id}' ORDER BY date DESC OFFSET 0 LIMIT {PAGE_LIMIT}")
     #byteaデータの取り出し
     row = cur.fetchall()
-    print(row)
-    pic = row[0]['img']
-    #ファイルに内容を書き込み
-    f = open("static/" + event.source.user_id + '.jpg', 'wb')
-    f.write(pic)
-    f.close()
+    filePathList = []
+
+
+    for i in row:
+        pic = i['img']
+        #ファイルに内容を書き込み
+        f = open("static/" + event.source.user_id + "-" + str(i["id"]) + '.jpg', 'wb')
+        f.write(pic)
+        f.close()
+        filePathList.append("static/" + event.source.user_id + "-" + str(i["id"]) + '.jpg')
     cur.close()
     conn.close()
+
+    if len(row) == 0:
+        line_bot_api.reply_message(
+            event.reply_token,
+            TextSendMessage(text="画像を送信してください。"))
+        return 0
+
+    notes = []
+
+    for i in filePathList:
+        notes.append(CarouselColumn(thumbnail_image_url=FQDN + i,
+                                title="5ページのpdfを作成",
+                                text="この画像から右の5枚を1つのpdfにまとめます。",
+                                actions=[{"type": "message","label": "作成する","text": "https://pjsekai.sega.jp/character/unite04/emu/index.html"}]))
+
+    messages = TemplateSendMessage(
+        alt_text='template',
+        template=CarouselTemplate(columns=notes),
+    )
+
+    line_bot_api.reply_message(event.reply_token, messages=messages)
+
+    
+    if True:
+        retuen 0
 
     #GoogleDriveにアップロード
     pdfFileName = re.sub(r'[\\/:*?"<>|\.]+','',event.message.text)
@@ -134,7 +163,7 @@ def handle_message(event):
 
     pdfPath = png2pdf(pdfFileName,"static/" + event.source.user_id + '.jpg')
     image_url=uploadFile(pdfPath)
-    
+
     if not os.path.exists("static/" + event.source.user_id + '.jpg'):
         line_bot_api.reply_message(
             event.reply_token,
