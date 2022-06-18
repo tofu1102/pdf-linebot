@@ -136,9 +136,9 @@ def handle_message(event):
     notes = []
 
     for i in range(FileNum):
-        notes.append(CarouselColumn(thumbnail_image_url=FQDN + filePathList[i],
-                                title=f"{i+1}ページのpdfを作成",
-                                text=f"この画像から右の{i+1}枚を1つのpdfにまとめます。",
+        notes.append(CarouselColumn(thumbnail_image_url=FQDN + filePathList[4-i],
+                                title=f"{5-i}ページのpdfを作成",
+                                text=f"この画像から右の{5-i}枚を1つのpdfにまとめます。",
                                 actions=[{"type": "message","label": "作成する","text": "https://pjsekai.sega.jp/character/unite04/emu/index.html"}]))
 
     messages = TemplateSendMessage(
