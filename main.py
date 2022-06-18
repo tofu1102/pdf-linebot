@@ -138,10 +138,10 @@ def handle_message(event):
         notes = []
 
         for i in range(FileNum):
-            notes.append(CarouselColumn(thumbnail_image_url=FQDN + filePathList[PAGE_LIMIT-i-1],
-                                title=f"{PAGE_LIMIT-i}ページのpdfを作成",
-                                text=f"この画像から右の{PAGE_LIMIT-i}枚を1つのpdfにまとめます。",
-                                actions=[{"type": "message","label": "作成する","text": f"[[{event.message.text}/{PAGE_LIMIT-i}]]"}]))
+            notes.append(CarouselColumn(thumbnail_image_url=FQDN + filePathList[FileNum-i-1],
+                                title=f"{FileNum-i}ページのpdfを作成",
+                                text=f"この画像から右の{FileNum-i}枚を1つのpdfにまとめます。",
+                                actions=[{"type": "message","label": "作成する","text": f"[[{event.message.text}/{FileNum-i}]]"}]))
 
         messages = [
             TextSendMessage(text=f"{event.message.text}.pdfを作成します。"),
