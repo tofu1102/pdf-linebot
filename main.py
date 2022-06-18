@@ -107,69 +107,90 @@ def handle_image_message(event):
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
 
-    conn= psycopg2.connect(DATABASE_URL)
-    cur = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
-    cur.execute(f"SELECT img, id FROM Img WHERE user_id = '{event.source.user_id}' ORDER BY date DESC OFFSET 0 LIMIT {PAGE_LIMIT}")
-    #byteaデータの取り出し
-    row = cur.fetchall()
-    filePathList = []
+    if not (event.message.text.startswith("[[") and event.message.text.endswith("]]")):
+
+        conn= psycopg2.connect(DATABASE_URL)
+        cur = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
+        cur.execute(f"SELECT img, id FROM Img WHERE user_id = '{event.source.user_id}' ORDER BY date DESC OFFSET 0 LIMIT {PAGE_LIMIT}")
+        #byteaデータの取り出し
+        row = cur.fetchall()
+        filePathList = []
 
 
-    for i in row:
-        pic = i['img']
-        #ファイルに内容を書き込み
-        f = open("static/" + event.source.user_id + "-" + str(i["id"]) + '.jpg', 'wb')
-        f.write(pic)
-        f.close()
-        filePathList.append("static/" + event.source.user_id + "-" + str(i["id"]) + '.jpg')
-    cur.close()
-    conn.close()
+        for i in row:
+            pic = i['img']
+            #ファイルに内容を書き込み
+            f = open("static/" + event.source.user_id + "-" + str(i["id"]) + '.jpg', 'wb')
+            f.write(pic)
+            f.close()
+            filePathList.append("static/" + event.source.user_id + "-" + str(i["id"]) + '.jpg')
+        cur.close()
+        conn.close()
 
-    if len(row) == 0:
-        line_bot_api.reply_message(
-            event.reply_token,
-            TextSendMessage(text="画像を送信してください。"))
-        return 0
+        if len(row) == 0:
+            line_bot_api.reply_message(
+                event.reply_token,
+                TextSendMessage(text="画像を送信してください。"))
+            return 0
+        else:
+            FileNum = len(row)
+
+        notes = []
+
+        for i in range(FileNum):
+            notes.append(CarouselColumn(thumbnail_image_url=FQDN + filePathList[PAGE_LIMIT-i-1],
+                                title=f"{PAGE_LIMIT-i}ページのpdfを作成",
+                                text=f"この画像から右の{PAGE_LIMIT-i}枚を1つのpdfにまとめます。",
+                                actions=[{"type": "message","label": "作成する","text": f"[[{event.message.text}/{PAGE_LIMIT-i}]]"}]))
+
+        messages = [
+            TextSendMessage(text=f"{event.message.text + ".pdf"}を作成します。"),
+            TemplateSendMessage(
+                alt_text='template',
+                template=CarouselTemplate(columns=notes),
+                )
+            ]
+
+        line_bot_api.reply_message(event.reply_token, messages=messages)
+
     else:
-        FileNum = len(row)
+        pdfFileName,page = event.message.text[2:-2].split("/")
+        #GoogleDriveにアップロード
+        pdfFileName = re.sub(r'[\\/:*?"<>|\.]+','',pdfFileName)
+        if pdfFileName == "":
+            line_bot_api.reply_message(
+            event.reply_token,
+            [TextSendMessage(text="""これらの文字はファイル名に含めることができません。\/:*?"<>|."""),]
+            )
 
-    notes = []
+            return 0
 
-    for i in range(FileNum):
-        notes.append(CarouselColumn(thumbnail_image_url=FQDN + filePathList[4-i],
-                                title=f"{5-i}ページのpdfを作成",
-                                text=f"この画像から右の{5-i}枚を1つのpdfにまとめます。",
-                                actions=[{"type": "message","label": "作成する","text": "https://pjsekai.sega.jp/character/unite04/emu/index.html"}]))
+        #ファイルのリストを取得
+        conn= psycopg2.connect(DATABASE_URL)
+        cur = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
+        cur.execute(f"SELECT img, id FROM Img WHERE user_id = '{event.source.user_id}' ORDER BY date DESC OFFSET 0 LIMIT {PAGE_LIMIT}")
+        #byteaデータの取り出し
+        row = cur.fetchall()
+        filePathList = []
 
-    messages = TemplateSendMessage(
-        alt_text='template',
-        template=CarouselTemplate(columns=notes),
-    )
+        for i in row:
 
-    line_bot_api.reply_message(event.reply_token, messages=messages)
+            filePathList.append("static/" + event.source.user_id + "-" + str(i["id"]) + '.jpg')
 
+            if os.path.exists("static/" + event.source.user_id + "-" + str(i["id"]) + '.jpg'):continue
 
-    if True:
-        return 0
-
-    #GoogleDriveにアップロード
-    pdfFileName = re.sub(r'[\\/:*?"<>|\.]+','',event.message.text)
-    if pdfFileName == "":
-        line_bot_api.reply_message(
-           event.reply_token,
-           [TextSendMessage(text="""これらの文字はファイル名に含めることができません。\/:*?"<>|."""),
-           ])
-
-        return 0
+            pic = i['img']
+            #ファイルに内容を書き込み
+            f = open("static/" + event.source.user_id + "-" + str(i["id"]) + '.jpg', 'wb')
+            f.write(pic)
+            f.close()
+        cur.close()
+        conn.close()
 
 
-    pdfPath = png2pdf(pdfFileName,"static/" + event.source.user_id + '.jpg')
+    pdfPath = png2pdf(pdfFileName,filePathList)
     image_url=uploadFile(pdfPath)
 
-    if not os.path.exists("static/" + event.source.user_id + '.jpg'):
-        line_bot_api.reply_message(
-            event.reply_token,
-            TextSendMessage(text="Error"))
 
     line_bot_api.reply_message(
        event.reply_token,
