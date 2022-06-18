@@ -188,14 +188,14 @@ def handle_message(event):
         conn.close()
 
 
-    pdfPath = png2pdf(pdfFileName,filePathList)
-    image_url=uploadFile(pdfPath)
+        pdfPath = png2pdf(pdfFileName,filePathList)
+        image_url=uploadFile(pdfPath)
 
 
-    line_bot_api.reply_message(
-       event.reply_token,
-       [TextSendMessage(text=image_url),
-       ])
+        line_bot_api.reply_message(
+            event.reply_token,
+            [TextSendMessage(text=image_url),
+            ])
 
 #@handler.add(MessageEvent, message=TextMessage)
 def response_message(event):
