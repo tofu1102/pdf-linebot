@@ -104,22 +104,49 @@ def handle_image_message(event):
         TextSendMessage(text="保存完了"))
 
 
-#@handler.add(MessageEvent, message=TextMessage)
+@handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
 
     conn= psycopg2.connect(DATABASE_URL)
     cur = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
     cur.execute(f"SELECT img FROM Img WHERE user_id = '{event.source.user_id}' ORDER BY date DESC OFFSET 0 LIMIT {PAGE_LIMIT}")
+
+    datas = cur.fetchall()
+    if len(datas) == 0:
+        line_bot_api.reply_message(
+           event.reply_token,
+           [TextSendMessage(text="""写真を送信してください。"""),
+           ])
+           return 0
+
+    FilePaths = []
     #byteaデータの取り出し
-    row = cur.fetchall()
-    print(row)
-    pic = row[0]['img']
-    #ファイルに内容を書き込み
-    f = open("static/" + event.source.user_id + '.jpg', 'wb')
-    f.write(pic)
-    f.close()
+    for row in datas:
+        pic = row['img']
+        #ファイルに内容を書き込み
+        f = open("static/" + event.source.user_id + "-" + row['id'] '.jpg', 'wb')
+        f.write(pic)
+        f.close()
+        FilePaths.append("static/" + event.source.user_id + "-" + row['id'] '.jpg')
     cur.close()
     conn.close()
+
+    notes = []
+
+    for path in FilePaths:
+        notes.append(CarouselColumn(thumbnail_image_url=FQDN + path,
+                                title="5ページのpdf作成",
+                                text="この画像と右にある画像で5ページのpdfを作成します。",
+                                actions=[{"type": "message","label": "サイトURL","text": "https://pjsekai.sega.jp/character/unite04/emu/index.html"}]))
+
+    messages = TemplateSendMessage(
+        alt_text='template',
+        template=CarouselTemplate(columns=notes),
+    )
+
+    line_bot_api.reply_message(event.reply_token, messages=messages)
+
+    return 0
 
     #GoogleDriveにアップロード
     pdfFileName = re.sub(r'[\\/:*?"<>|\.]+','',event.message.text)
@@ -134,33 +161,6 @@ def handle_message(event):
 
     pdfPath = png2pdf(pdfFileName,"static/" + event.source.user_id + '.jpg')
     image_url=uploadFile(pdfPath)
-
-@handler.add(MessageEvent, message=TextMessage)
-def response_message(event):
-    # notesのCarouselColumnの各値は、変更してもらって結構です。
-    notes = [CarouselColumn(thumbnail_image_url="https://pdf-linebot.herokuapp.com/static/鳳えむ.png",
-                            title="【ReleaseNote】トークルームを実装しました。",
-                            text="creation(創作中・考え中の何かしらのモノ・コト)に関して、意見を聞けるようにトークルーム機能を追加しました。",
-                            actions=[{"type": "message","label": "サイトURL","text": "https://pjsekai.sega.jp/character/unite04/emu/index.html"}]),
-
-             CarouselColumn(thumbnail_image_url="https://pdf-linebot.herokuapp.com/static/鳳えむ.png",
-                            title="ReleaseNote】創作中の活動を報告する機能を追加しました。",
-                            text="創作中や考え中の時点の活動を共有できる機能を追加しました。",
-                            actions=[
-                                {"type": "message", "label": "サイトURL", "text": "https://pjsekai.sega.jp/character/unite04/emu/index.html"}]),
-
-             CarouselColumn(thumbnail_image_url="https://pdf-linebot.herokuapp.com/static/鳳えむ.png",
-                            title="【ReleaseNote】タグ機能を追加しました。",
-                            text="「イベントを作成」「記事を投稿」「本を登録」にタグ機能を追加しました。",
-                            actions=[
-                                {"type": "message", "label": "サイトURL", "text": "https://pjsekai.sega.jp/character/unite04/emu/index.html"}])]
-
-    messages = TemplateSendMessage(
-        alt_text='template',
-        template=CarouselTemplate(columns=notes),
-    )
-
-    line_bot_api.reply_message(event.reply_token, messages=messages)
 
 
     if not os.path.exists("static/" + event.source.user_id + '.jpg'):
