@@ -134,6 +134,16 @@ def handle_message(event):
 
     pdfPath = png2pdf(pdfFileName,"static/" + event.source.user_id + '.jpg')
     image_url=uploadFile(pdfPath)
+    
+    if not os.path.exists("static/" + event.source.user_id + '.jpg'):
+        line_bot_api.reply_message(
+            event.reply_token,
+            TextSendMessage(text="Error"))
+
+    line_bot_api.reply_message(
+       event.reply_token,
+       [TextSendMessage(text=image_url),
+       ])
 
 @handler.add(MessageEvent, message=TextMessage)
 def response_message(event):
@@ -163,15 +173,7 @@ def response_message(event):
     line_bot_api.reply_message(event.reply_token, messages=messages)
 
 
-    if not os.path.exists("static/" + event.source.user_id + '.jpg'):
-        line_bot_api.reply_message(
-            event.reply_token,
-            TextSendMessage(text="Error"))
 
-    line_bot_api.reply_message(
-       event.reply_token,
-       [TextSendMessage(text=image_url),
-       ])
 
 
 @handler.add(MessageEvent, message=StickerMessage)
