@@ -104,7 +104,7 @@ def handle_image_message(event):
         TextSendMessage(text="保存完了"))
 
 
-#@handler.add(MessageEvent, message=TextMessage)
+@handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
 
     conn= psycopg2.connect(DATABASE_URL)
@@ -174,7 +174,7 @@ def handle_message(event):
        [TextSendMessage(text=image_url),
        ])
 
-@handler.add(MessageEvent, message=TextMessage)
+#@handler.add(MessageEvent, message=TextMessage)
 def response_message(event):
     # notesのCarouselColumnの各値は、変更してもらって結構です。
     notes = [CarouselColumn(thumbnail_image_url="https://pdf-linebot.herokuapp.com/static/鳳えむ.png",
