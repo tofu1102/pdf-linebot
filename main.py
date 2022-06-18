@@ -144,7 +144,7 @@ def handle_message(event):
                                 actions=[{"type": "message","label": "作成する","text": f"[[{event.message.text}/{PAGE_LIMIT-i}]]"}]))
 
         messages = [
-            TextSendMessage(text=f"{event.message.text + ".pdf"}を作成します。"),
+            TextSendMessage(text=f"{event.message.text}.pdfを作成します。"),
             TemplateSendMessage(
                 alt_text='template',
                 template=CarouselTemplate(columns=notes),
