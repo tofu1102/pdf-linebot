@@ -171,7 +171,8 @@ def handle_message(event):
         cur = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
         cur.execute(f"SELECT img, id FROM Img WHERE user_id = '{event.source.user_id}' ORDER BY date DESC OFFSET 0 LIMIT {page}")
         #byteaデータの取り出し
-        row = cur.fetchall().reverse()
+        row = cur.fetchall()
+        row.reverse()
         filePathList = []
 
         for i in row:
