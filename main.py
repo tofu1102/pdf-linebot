@@ -106,12 +106,13 @@ def handle_image_message(event):
 
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
+    print(event.message)
 
     if not (event.message.text.startswith("[[") and event.message.text.endswith("]]")):
 
         conn= psycopg2.connect(DATABASE_URL)
         cur = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
-        cur.execute(f"SELECT img, id FROM Img WHERE user_id = '{event.source.user_id}' ORDER BY id DESC OFFSET 0 LIMIT {PAGE_LIMIT}")
+        cur.execute(f"SELECT img, id FROM Img WHERE user_id = '{event.source.user_id}' ORDER BY id ASC OFFSET 0 LIMIT {PAGE_LIMIT}")
         #byteaデータの取り出し
         row = cur.fetchall()
         filePathList = []
