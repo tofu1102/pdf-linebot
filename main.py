@@ -106,13 +106,13 @@ def handle_image_message(event):
 
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
-    print(event.message)
+    print(event)
 
     if not (event.message.text.startswith("[[") and event.message.text.endswith("]]")):
 
         conn= psycopg2.connect(DATABASE_URL)
         cur = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
-        cur.execute(f"SELECT img, id FROM Img WHERE user_id = '{event.source.user_id}' ORDER BY id ASC OFFSET 0 LIMIT {PAGE_LIMIT}")
+        cur.execute(f"SELECT img, id FROM Img WHERE user_id = '{event.source.user_id}' ORDER BY id DESC OFFSET 0 LIMIT {PAGE_LIMIT}")
         #byteaデータの取り出し
         row = cur.fetchall()
         filePathList = []
@@ -171,7 +171,7 @@ def handle_message(event):
         cur = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
         cur.execute(f"SELECT img, id FROM Img WHERE user_id = '{event.source.user_id}' ORDER BY date DESC OFFSET 0 LIMIT {page}")
         #byteaデータの取り出し
-        row = cur.fetchall()
+        row = cur.fetchall().reverse()
         filePathList = []
 
         for i in row:
