@@ -78,7 +78,7 @@ def handle_image_message(event):
     cur = conn.cursor()
     #ファイルを開いてデータを取得
     pic = open(P, 'rb').read()
-    cur.execute(f"INSERT INTO Img (date,user_id,done,img) VALUES ('{dt.year}-{dt.month}-{dt.day} {dt.hour}:{dt.minute}:{dt.second}', '{event.source.user_id}',{Done}, {psycopg2.Binary(pic)})")
+    cur.execute(f"INSERT INTO Img (date,user_id,done,img) VALUES ('{dt.year}-{dt.month}-{dt.day} {dt.hour}:{dt.minute}:{dt.second}.{dt.microsecond}', '{event.source.user_id}',{Done}, {psycopg2.Binary(pic)})")
     conn.commit()
     cur.close()
 
