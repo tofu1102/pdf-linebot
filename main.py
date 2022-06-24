@@ -57,6 +57,10 @@ def callback():
 
 @handler.add(MessageEvent, message=ImageMessage)
 def handle_image_message(event):
+
+    Done = False
+    dt = datetime.datetime.now()
+
     message_id = event.message.id
     message_content = line_bot_api.get_message_content(message_id)
     img = message_content.content
@@ -68,8 +72,6 @@ def handle_image_message(event):
     with open(P,mode) as f:
         f.write(img)
 
-    Done = False
-    dt = datetime.datetime.now()
 
     #DBに登録
     conn= psycopg2.connect(DATABASE_URL)
@@ -112,7 +114,7 @@ def handle_message(event):
 
         conn= psycopg2.connect(DATABASE_URL)
         cur = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
-        cur.execute(f"SELECT img, id FROM Img WHERE user_id = '{event.source.user_id}' ORDER BY id DESC OFFSET 0 LIMIT {PAGE_LIMIT}")
+        cur.execute(f"SELECT img, id FROM Img WHERE user_id = '{event.source.user_id}' ORDER BY date DESC OFFSET 0 LIMIT {PAGE_LIMIT}")
         #byteaデータの取り出し
         row = cur.fetchall()
         filePathList = []
